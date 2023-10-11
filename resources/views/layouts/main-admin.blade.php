@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    @include('layouts.subviews.header')
-    <main class="bg-white dark:bg-gray-900 min-h-screen">
+
+    @include('layouts.subviews.sidebar-admin')
+    <main class="bg-white dark:bg-gray-900 min-h-screen p-4 sm:ml-64">
         @yield('content')
     </main>
-    @include('layouts.subviews.footer')
 </body>
 
 </html>
