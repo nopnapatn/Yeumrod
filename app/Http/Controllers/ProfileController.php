@@ -3,14 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $users = User::where('id', '!=', auth()->user()->id)->sortable()->paginate(10);
+        if (Gate::allows('isAdmin', auth()->user())) {
+            return view('admin.user.index', [
+                'users' => $users
+            ]);
+        }
+    }
+
     /**
      * Display the user's profile form.
      */

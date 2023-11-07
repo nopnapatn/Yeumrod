@@ -31,16 +31,27 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'first_name' => ['required', 'string', 'regex:/^[\p{L}]+$/u', 'max:255'],
+            'last_name' => ['required', 'string', 'regex:/^[\p{L}]+$/u', 'max:255'],
+            'phone_number' => ['required', 'digits:10', 'regex:/^[0-9]*$/', 'unique:' . User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'phone_number' => $request->phone_number,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]);
+
+        $user = new User();
+        $user->first_name = $request->get('first_name');
+        $user->last_name = $request->get('last_name');
+        $user->phone_number = $request->get('phone_number');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
+        $user->save();
 
         event(new Registered($user));
 
