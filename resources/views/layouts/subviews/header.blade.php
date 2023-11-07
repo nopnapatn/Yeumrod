@@ -6,17 +6,21 @@
         </a>
         <div class="flex items-center">
             @if (Route::has('login'))
-            @Auth
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <span class="text-gray-900 dark:text-white mr-4">{{ Auth::user()->name }}</span>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Log out</a>
-            </form>
-            @else
-            <a href="tel:66624922656" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline">(66) 624-922-656</a>
-            <a href="{{ route('login') }}" class="mr-6 text-sm  text-blue-600 dark:text-blue-500 hover:underline">Sign in</a>
-            <a href="{{ route('register') }}" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Get Started</a>
-            @endAuth
+                @Auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <span class="text-gray-900 dark:text-white mr-4">{{ Auth::user()->getName() }}</span>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"
+                            class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Log out</a>
+                    </form>
+                @else
+                    <a href="tel:66624922656" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline">(66)
+                        624-922-656</a>
+                    <a href="{{ route('login') }}"
+                        class="mr-6 text-sm  text-blue-600 dark:text-blue-500 hover:underline">Sign in</a>
+                    <a href="{{ route('register') }}" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Get
+                        Started</a>
+                @endAuth
             @endif
         </div>
     </div>
@@ -26,12 +30,23 @@
         <div class="flex items-center">
             <ul class="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
                 @if (Route::has('login'))
-                @Auth
-                <!-- Home -->
-                <li>
-                    <a href="{{ url('/') }}" class="text-gray-900 dark:text-white hover:underline" aria-current="page">Home</a>
-                </li>
-                @endAuth
+                    @Auth
+                        <!-- Home -->
+                        <li>
+                            <a href="{{ url('/') }}" class="text-gray-900 dark:text-white hover:underline"
+                                aria-current="page">Home</a>
+                        </li>
+                        <!-- My Booking -->
+                        <li>
+                            <a href="{{ route('user.form.index') }}" class="text-gray-900 dark:text-white hover:underline"
+                                aria-current="page">My Booking</a>
+                        </li>
+                        <!-- Profile -->
+                        <li>
+                            <a href="{{ route('profile.edit') }}" class="text-gray-900 dark:text-white hover:underline"
+                                aria-current="page">Profile</a>
+                        </li>
+                    @endAuth
                 @endif
             </ul>
         </div>

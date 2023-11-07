@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Form;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+
+use function PHPUnit\Framework\isEmpty;
 
 class HomeController extends Controller
 {
@@ -13,7 +19,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //
+        $forms = Form::with('car', 'user')->paginate(4);
+        if (Gate::allows('isAdmin', auth()->user())) {
+            return view('admin.home.index', [
+                'forms' => $forms
+            ]);
+        } else {
+            return view('user.home.index');
+        }
     }
 
     /**
@@ -62,28 +75,5 @@ class HomeController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function index1()
-    {
-        if (Gate::allows('isAdmin', auth()->user())) {
-            return view('admin.index', []);
-        } else {
-            return view('home.index1', []);
-        }
-    }
-
-    public function index2()
-    {
-        $cars = Car::get();
-        return view('home.index2', [
-            'cars' => $cars
-        ]);
-    }
-
-    public function index3()
-    {
-
-        return view('home.index3', []);
     }
 }
